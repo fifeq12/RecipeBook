@@ -1,0 +1,11 @@
+<svg height="33.02" viewBox="0 0 33.02 33.02" width="33.02" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(-520.466 -18.785)">
+        <ellipse cx="15.795" cy="15.795" fill="none" rx="15.795"
+                 ry="15.795" stroke="#000000"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 stroke-width="1.43" transform="translate(521.181 19.5)"/>
+        <path
+            d="M25,20.6v9.834l7.04,7.11" fill="none" stroke="#000000"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.43" transform="translate(511.976 5.9)"/>
+    </g>
+</svg>

@@ -1,0 +1,27 @@
+<app-nav-bar></app-nav-bar>
+<div class="container">
+    <div class="card">
+        <div class="card-item" *ngFor="let recipe of recipes">
+          <div class="card-title">
+              <a href="#"><h3>{{recipe.name}}</h3></a>
+          </div>
+          <a href="#">
+          <div class="card-image">
+            <img src="{{recipe.imageUrl}}">
+          </div>
+          </a>
+          <div class="card-item-description">
+          <div class="additional-info">
+            <div class="icon-info">
+            <img id="recipe-image" onmouseover="ZoomEffect" src="assets/icons/recipe-difficulty-{{recipe.difficulty}}.svg" />
+            <p>{{recipe.difficulty}}</p>
+            </div>
+            <div class="icon-info">
+            <img src="assets/icons/recipe-time.svg" />
+            <p>{{recipe.preparationTime}} min.</p>
+            </div>
+          </div>          
+        </div>
+        </div>
+    </div>
+</div>

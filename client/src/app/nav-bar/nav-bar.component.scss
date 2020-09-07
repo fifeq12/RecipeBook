@@ -1,0 +1,49 @@
+@font-face {
+    font-family: "DancingScript";
+    src: url("/assets/fonts/DancingScript-VariableFont_wght.ttf") format("truetype");
+ }
+ @font-face {
+    font-family: "Nav";
+    src: url("/assets/fonts/OpenSansCondensed-Light.ttf") format("truetype");
+ }
+ .container {
+    box-shadow: 2px 2px 16px #497f91;
+    background-color: #e1f9fa;
+ }
+.nav-bar {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+.nav-bar-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+.title {
+    font-family: DancingScript;
+    font-size: 250%;
+    color: #343b3b;
+    margin-right: 2em;
+}
+a {
+    color: #343b3b;
+    text-decoration: none;
+}
+.nav-link {
+    margin-right:1em;
+    color: #4f5959;
+    font-size: 120%;
+}
+.nav-link b {
+    font-family: "Nav" !important;
+    font-size: 120%;
+}
+.nav-link:hover {
+    text-decoration: underline;
+}
