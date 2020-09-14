@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models;
 using RecipeBook.DTO;
+using RecipeBook.Helpers;
 
 namespace RecipeBook.Controllers
 {
@@ -28,10 +29,38 @@ namespace RecipeBook.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecipeReturn>>> GetRecipes()
+        public async Task<ActionResult<Pagination<RecipeReturn>>> GetRecipes(string orderBy, string ingredientsType, string search, int? page, int? pageSize)
         {
             var recipes = await _unitOfWork.Recipe.GetAll(includeProperties: "RecipeType");
-            return recipes.Select(recipe => new RecipeReturn
+            switch (orderBy)
+            {
+                case "fast":
+                    recipes = recipes.OrderBy(x => x.PreparationTime);
+                    break;
+                case "new":
+                    break;
+                default:
+                    recipes = recipes.OrderBy(x => x.Name);
+                    break;
+            }
+            switch (ingredientsType)
+            {
+                case "vege":
+                    recipes = recipes.Where(x => x.IngredientsType.ToString() == "Wegetariańskie");
+                    break;
+                case "vegan":
+                    recipes = recipes.Where(x => x.IngredientsType.ToString() == "Wegańskie");
+                    break;
+                case "meat":
+                    recipes = recipes.Where(x => x.IngredientsType.ToString() == "Mięsne");
+                    break;
+            }
+            if (search != null)
+            {
+                recipes = recipes.Where(x => EF.Functions.Like(x.Name, $"%{search}%"));
+            }
+
+            var data = recipes.Select(recipe => new RecipeReturn
             {
                 Id = recipe.Id,
                 Name = recipe.Name,
@@ -42,6 +71,8 @@ namespace RecipeBook.Controllers
                 Difficulty = Enum.GetName(typeof(Difficulty), recipe.Difficulty),
                 RecipeType = recipe.RecipeType.Name
             }).ToList();
+
+            return Ok(Pagination<RecipeReturn>.Create(data, page ?? 1, pageSize ?? 10));
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<RecipeReturn>> GetRecipe(int id)
