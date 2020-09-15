@@ -29,7 +29,7 @@ namespace RecipeBook.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Pagination<RecipeReturn>>> GetRecipes(string orderBy, string ingredientsType, string search, int? page, int? pageSize)
+        public async Task<ActionResult<Pagination<RecipeReturn>>> GetRecipes(string orderBy, string ingredientsType, string search, int? page, int? pageSize, int recipeTypeId)
         {
             var recipes = await _unitOfWork.Recipe.GetAll(includeProperties: "RecipeType");
             switch (orderBy)
@@ -58,6 +58,11 @@ namespace RecipeBook.Controllers
             if (search != null)
             {
                 recipes = recipes.Where(x => EF.Functions.Like(x.Name, $"%{search}%"));
+            }
+
+            if(recipeTypeId > 0)
+            {
+                recipes = recipes.Where(x => x.RecipeTypeId == recipeTypeId);
             }
 
             var data = recipes.Select(recipe => new RecipeReturn

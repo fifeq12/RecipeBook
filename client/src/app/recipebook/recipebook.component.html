@@ -1,44 +1,68 @@
 <div class="container">
   <div class="sort-menu">
-    <div class="recipe-type">
-      <select class="custom-select">
-        <option selected disabled>Rodzaj dania</option>
-        <option>Obiad</option>
-        <option>Kolacja</option>
-        <option>Śniadanie</option>
-      </select>
+  <div class="recipe-menu">
+    <div 
+    (click)="showRecipeTypeMenu()" 
+    [class.selected]="isRecipeTypeMenuShown"
+    (click)="$event.stopPropagation()" class="recipe-type">
+      <div class="recipe-type-name">
+      <p><i class="fa fa-arrow-down"></i></p>
+      <p style="margin-left: 1rem;">Rodzaj dania</p>
+      </div>
+        <ul *ngIf="isRecipeTypeMenuShown" (click)="$event.stopPropagation()" class="recipe-type-menu">
+          <li class="recipe-type-menu-item"
+          *ngFor="let type of recipeTypes"
+          [class.active]="type.id === this.recipeTypeIdSelected"
+          [value]="type.id"
+          (click)="onRecipeTypeSelected(type.id)"
+          >{{type.name}}</li>
+        </ul>
     </div>
-    <div class="recipe-ingredients-type">
-      <select class="custom-select">
-        <option selected disabled>Typ dania</option>
-        <option>Mięsne</option>
-        <option>Wegańskie</option>
-        <option>Wegetariańskie</option>
-      </select>
+      <div 
+      (click)="showIngredientsTypeMenu()" 
+      [class.selected]="isIngredientsTypeMenuShown"
+      (click)="$event.stopPropagation()" class="recipe-type">
+        <div class="recipe-type-name">
+        <p><i class="fa fa-arrow-down"></i></p>
+        <p style="margin-left: 1rem;">Typ dania</p>
+        </div>
+          <ul *ngIf="isIngredientsTypeMenuShown" (click)="$event.stopPropagation()" class="recipe-type-menu">
+            <li class="recipe-type-menu-item" 
+            *ngFor="let ingredientType of ingredientsTypeOptions"
+            [class.active]="ingredientType.value === this.ingredientsTypeSelected"
+            [value]="ingredientType.value"
+            (click)="onIngredientsTypeSelected(ingredientType.value)"
+            >{{ingredientType.name}}</li>
+          </ul>
+      </div>
+      <div 
+      (click)="showSortTypeMenu()" 
+      [class.selected]="isSortTypeMenuShown"
+      (click)="$event.stopPropagation()" class="sort-type">
+        <div class="sort-type-name">
+        <p><i class="fa fa-arrow-down"></i></p>
+        <p style="margin-left: 1rem;">Sortuj według</p>
+        </div>
+          <ul *ngIf="isSortTypeMenuShown" (click)="$event.stopPropagation()" class="sort-type-menu">
+            <li
+              *ngFor="let sort of sortOptions"
+              [class.active]="sort.value === this.sortSelected"
+              [value]="sort.value"
+              (click)="onSortSelected(sort.value)"
+              >{{sort.name}}</li>
+          </ul>
+      </div>
+  </div>
+  <div class="search-and-sort">
+    <div class="search-field">
+    <input (keyup.enter)="onSearch()" type="text" #search placeholder="Wyszukaj..." value="">
+    <button (click)="onSearch()"><i class="fa fa-search"></i></button>
     </div>
   </div>
+</div>
 <div class="card">
     <div class="card-item" *ngFor="let recipe of recipes">
-      <div class="card-title">
-          <a href="#"><h3>{{recipe.name}}</h3></a>
-      </div>
-      <a href="#">
-      <div class="card-image">
-        <img src="{{recipe.imageUrl}}">
-      </div>
-      </a>
-      <div class="card-item-description">
-      <div class="additional-info">
-        <div class="icon-info">
-        <img id="recipe-image" src="assets/icons/recipe-difficulty-{{recipe.difficulty}}.svg" />
-        <p>{{recipe.difficulty}}</p>
-        </div>
-        <div class="icon-info">
-        <img src="assets/icons/recipe-time.svg" />
-        <p>{{recipe.preparationTime}} min.</p>
-        </div>
-      </div>          
-    </div>
+      <app-recipe-item [recipe]="recipe"></app-recipe-item>
     </div>
 </div>
 </div>
