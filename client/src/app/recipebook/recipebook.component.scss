@@ -170,3 +170,22 @@ p, li {
     flex-direction: column;
     position: relative;
 }
+.sorting-info {
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+.reset-filters {
+    cursor: pointer;
+    text-decoration: none;
+    font-family: "QuickSand";
+    color: black;
+    font-size: 80%;
+}
+.reset-filters:hover {
+    color:gray;
+}
+span {
+    font-family: "QuickSand";
+}

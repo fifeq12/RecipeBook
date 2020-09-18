@@ -18,7 +18,7 @@ namespace RecipeBook.Helpers
         public static Pagination<T> Create(IReadOnlyList<T> data, int pageIndex, int pageSize)
         {     
             var items = data.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            var count = items.Count();
+            var count = data.Count();
             return new Pagination<T>(pageIndex, pageSize, count, items);
         }
 

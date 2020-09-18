@@ -1,0 +1,21 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin:1rem;
+}
+.page-item {
+    padding: 1rem;
+    background-color: red;
+    border: 1px solid black;
+}
+.page-item a {
+    text-decoration: none;
+    color:white;
+}
+.page-item:hover {
+    background-color: yellowgreen;
+}
+.page-item:hover a{
+    color: gray;
+}

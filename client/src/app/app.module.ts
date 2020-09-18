@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CoreModule } from './core/core.module';
 import { RecipebookModule } from './recipebook/recipebook.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { RecipebookModule } from './recipebook/recipebook.module';
     FontAwesomeModule,
     HttpClientModule,
     CoreModule,
-    RecipebookModule
+    RecipebookModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

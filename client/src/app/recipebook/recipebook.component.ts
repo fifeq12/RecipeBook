@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { IRecipe} from '../shared/models/recipe'
+import { IRecipe} from '../shared/models/recipe';
+import { recipeParams } from '../shared/models/recipeParams';
 import { IRecipeType } from '../shared/models/recipeTypes';
 import { RecipebookService } from './recipebook.service';
 
@@ -13,8 +14,8 @@ export class RecipebookComponent implements OnInit {
   search: string;
   recipes: IRecipe[];
   recipeTypes: IRecipeType[];
-  recipeTypeIdSelected = 0;
-  ingredientsTypeSelected = 'all';
+  recipeParams = new recipeParams();
+  totalItems: number;
   ingredientsTypeOptions = [
     {name: 'Wszystkie', value: 'all'},
     {name: 'Mięsne', value: 'meat'},
@@ -24,12 +25,14 @@ export class RecipebookComponent implements OnInit {
   isRecipeTypeMenuShown = false;
   isIngredientsTypeMenuShown = false;
   isSortTypeMenuShown = false;
-  sortSelected = '';
   sortOptions = [
     {name: 'Nazwa', value: ''},
     {name: 'Szybkie', value: 'fast'},
     {name: 'Najnowsze', value: 'new'},
   ];
+  recipeTypeNameSelected = 'Wszystkie';
+  ingredientsTypeNameSelected: string;
+  sortOptionsSelected: string;
 
   @HostListener('document:click', ['$event'])
     // tslint:disable-next-line: typedef
@@ -50,10 +53,13 @@ export class RecipebookComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipes() {
     this.recipeBookService.getRecipes(
-      this.recipeTypeIdSelected,
-      this.ingredientsTypeSelected,
-      this.sortSelected, this.search).subscribe(response => {
+      this.recipeParams,
+       this.search
+       ).subscribe(response => {
       this.recipes = response.data;
+      this.recipeParams.pageNumber = response.pageIndex;
+      this.totalItems = response.count;
+      this.recipeParams.pageSize = response.pageSize;
     }, error => {
       console.log(error);
     });
@@ -67,23 +73,42 @@ export class RecipebookComponent implements OnInit {
     });
   }
   // tslint:disable-next-line: typedef
-  onRecipeTypeSelected(recipeTypeId: number) {
-    this.recipeTypeIdSelected = recipeTypeId;
+  onRecipeTypeSelected(recipeTypeId: number, recipeTypeName: string) {
+    this.recipeParams.recipeTypeId = recipeTypeId;
+    this.recipeTypeNameSelected = recipeTypeName;
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef
-  onIngredientsTypeSelected(ingredientsType: string) {
-    this.ingredientsTypeSelected = ingredientsType;
+  onIngredientsTypeSelected(ingredientsType: string, ingredientsTypeName: string) {
+    this.recipeParams.ingredientsType = ingredientsType;
+    if (ingredientsTypeName !== 'Wszystkie') {
+      this.ingredientsTypeNameSelected = ingredientsTypeName;
+    } else {
+      this.ingredientsTypeNameSelected = null;
+    }
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef
-  onSortSelected(sort: string) {
-    this.sortSelected = sort;
+  onSortSelected(sort: string, sortName: string) {
+    this.recipeParams.sort = sort;
+    if (sortName !== 'Nazwa') {
+      this.sortOptionsSelected = sortName;
+    } else {
+      this.sortOptionsSelected = null;
+    }
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef
   onSearch() {
     this.search = this.searchTerm.nativeElement.value;
+    this.getRecipes();
+  }
+
+  resetFilters() {
+    this.recipeParams = new recipeParams();
+    this.ingredientsTypeNameSelected = null;
+    this.sortOptionsSelected = null;
+    this.recipeTypeNameSelected = 'Wszystkie';
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef
@@ -101,6 +126,11 @@ export class RecipebookComponent implements OnInit {
     this.isSortTypeMenuShown = !this.isSortTypeMenuShown;
     this.isRecipeTypeMenuShown = false;
     this.isIngredientsTypeMenuShown = false;
+  }
+
+  onPageChanged(event: any) {
+    this.recipeParams.pageNumber = event.page;
+    this.getRecipes();
   }
 
 }

@@ -12,9 +12,9 @@
         <ul *ngIf="isRecipeTypeMenuShown" (click)="$event.stopPropagation()" class="recipe-type-menu">
           <li class="recipe-type-menu-item"
           *ngFor="let type of recipeTypes"
-          [class.active]="type.id === this.recipeTypeIdSelected"
+          [class.active]="type.id === this.recipeParams.recipeTypeId"
           [value]="type.id"
-          (click)="onRecipeTypeSelected(type.id)"
+          (click)="onRecipeTypeSelected(type.id, type.name)"
           >{{type.name}}</li>
         </ul>
     </div>
@@ -29,9 +29,9 @@
           <ul *ngIf="isIngredientsTypeMenuShown" (click)="$event.stopPropagation()" class="recipe-type-menu">
             <li class="recipe-type-menu-item" 
             *ngFor="let ingredientType of ingredientsTypeOptions"
-            [class.active]="ingredientType.value === this.ingredientsTypeSelected"
+            [class.active]="ingredientType.value === this.recipeParams.ingredientsType"
             [value]="ingredientType.value"
-            (click)="onIngredientsTypeSelected(ingredientType.value)"
+            (click)="onIngredientsTypeSelected(ingredientType.value, ingredientType.name)"
             >{{ingredientType.name}}</li>
           </ul>
       </div>
@@ -46,9 +46,9 @@
           <ul *ngIf="isSortTypeMenuShown" (click)="$event.stopPropagation()" class="sort-type-menu">
             <li
               *ngFor="let sort of sortOptions"
-              [class.active]="sort.value === this.sortSelected"
+              [class.active]="sort.value === this.recipeParams.sort"
               [value]="sort.value"
-              (click)="onSortSelected(sort.value)"
+              (click)="onSortSelected(sort.value, sort.name)"
               >{{sort.name}}</li>
           </ul>
       </div>
@@ -60,9 +60,29 @@
     </div>
   </div>
 </div>
+<div class="sorting-info">
+  <a (click)="resetFilters()" class="reset-filters">Wyczyść filtry</a>
+  <h3>
+    <span *ngIf="this.recipeTypeNameSelected">{{this.recipeTypeNameSelected}}</span>
+    <span *ngIf="this.ingredientsTypeNameSelected">, {{this.ingredientsTypeNameSelected}}</span>
+    <span *ngIf="this.sortOptionsSelected">, {{this.sortOptionsSelected}}</span>
+    <span> ({{this.totalItems}})</span>
+  </h3>
+</div>
 <div class="card">
     <div class="card-item" *ngFor="let recipe of recipes">
       <app-recipe-item [recipe]="recipe"></app-recipe-item>
     </div>
 </div>
+<pagination
+*ngIf="this.totalItems > 0 && this.totalItems > this.recipeParams.pageSize" 
+[boundaryLinks]="true" 
+[totalItems]="this.totalItems"
+(pageChanged)="onPageChanged($event)"
+[itemsPerPage]="this.recipeParams.pageSize"
+previousText="&lsaquo;" 
+nextText="&rsaquo;" 
+firstText="&laquo;" 
+lastText="&raquo;">
+</pagination>
 </div>
