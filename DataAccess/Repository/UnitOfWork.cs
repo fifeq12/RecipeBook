@@ -14,9 +14,13 @@ namespace DataAccess.Repository
             _db = db;
             Recipe = new RecipeRepository(_db);
             RecipeType = new RecipeTypeRepository(_db);
+            Ingredient = new IngredientRepository(_db);
+            PreparationStep = new PreparationStepRepository(_db);
         }
         public IRecipeRepository Recipe { get; private set; }
         public IRecipeTypeRepository RecipeType { get; private set; }
+        public IIngredientRepository Ingredient { get; private set; }
+        public IPreparationStepRepository PreparationStep { get; private set; }
 
     }
 }

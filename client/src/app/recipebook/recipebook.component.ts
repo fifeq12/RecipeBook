@@ -11,7 +11,6 @@ import { RecipebookService } from './recipebook.service';
 })
 export class RecipebookComponent implements OnInit {
   @ViewChild('search') searchTerm: ElementRef;
-  search: string;
   recipes: IRecipe[];
   recipeTypes: IRecipeType[];
   recipeParams = new recipeParams();
@@ -53,8 +52,7 @@ export class RecipebookComponent implements OnInit {
   // tslint:disable-next-line: typedef
   getRecipes() {
     this.recipeBookService.getRecipes(
-      this.recipeParams,
-       this.search
+      this.recipeParams
        ).subscribe(response => {
       this.recipes = response.data;
       this.recipeParams.pageNumber = response.pageIndex;
@@ -76,6 +74,7 @@ export class RecipebookComponent implements OnInit {
   onRecipeTypeSelected(recipeTypeId: number, recipeTypeName: string) {
     this.recipeParams.recipeTypeId = recipeTypeId;
     this.recipeTypeNameSelected = recipeTypeName;
+    this.recipeParams.pageNumber = 1;
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef
@@ -86,6 +85,7 @@ export class RecipebookComponent implements OnInit {
     } else {
       this.ingredientsTypeNameSelected = null;
     }
+    this.recipeParams.pageNumber = 1;
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef
@@ -100,7 +100,8 @@ export class RecipebookComponent implements OnInit {
   }
   // tslint:disable-next-line: typedef
   onSearch() {
-    this.search = this.searchTerm.nativeElement.value;
+    this.recipeParams.search = this.searchTerm.nativeElement.value;
+    this.recipeParams.pageNumber = 1;
     this.getRecipes();
   }
 
@@ -109,6 +110,7 @@ export class RecipebookComponent implements OnInit {
     this.ingredientsTypeNameSelected = null;
     this.sortOptionsSelected = null;
     this.recipeTypeNameSelected = 'Wszystkie';
+    this.searchTerm.nativeElement.value = '';
     this.getRecipes();
   }
   // tslint:disable-next-line: typedef

@@ -15,5 +15,7 @@ namespace DataAccess.Data
 
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeType> RecipeTypes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<PreparationStep> PreparationSteps { get; set; }
     }
 }

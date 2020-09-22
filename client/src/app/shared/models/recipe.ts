@@ -1,3 +1,6 @@
+import { IIngredient } from './ingredient';
+import { IPreparationSteps } from './preparationSteps';
+
 export interface IRecipe {
     id: number;
     name: string;
@@ -7,4 +10,6 @@ export interface IRecipe {
     ingredientsType: string;
     difficulty: string;
     recipeType: string;
+    ingredients: IIngredient[];
+    preparationSteps: IPreparationSteps[];
 }

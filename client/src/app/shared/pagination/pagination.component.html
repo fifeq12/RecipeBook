@@ -1,7 +1,0 @@
-<ul class="pagination" *ngIf="totalPages">
-    <li class="page-item"><button (click)="first()" [disabled]="isFirst">First</button></li>
-    <li class="page-item"><button (click)="previous()" [disabled]="isFirst">Previous</button></li>
-    <li class="page-item" *ngFor="let item of this.totalPagesNumbers" (click)="selectPage(item)"><button>{{item}}</button></li>
-    <li class="page-item"><button (click)="next()" [disabled]="isLast">Next</button></li>
-    <li class="page-item"><button (click)="last()" [disabled]="isLast">Last</button></li>
-</ul>

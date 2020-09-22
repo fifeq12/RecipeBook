@@ -46,4 +46,10 @@ a {
 }
 .nav-link:hover {
     text-decoration: underline;
+    color: #2c2d2e;
+}
+.active {
+    text-decoration: underline;
+    color: #2c2d2e;
+    background-color: #e1f9fa !important;
 }

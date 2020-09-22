@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaginationComponent } from './pagination/pagination.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PaginationHeaderComponent } from './components/pagination-header/pagination-header.component';
 
 
 
 
 @NgModule({
-  declarations: [PaginationComponent],
+  declarations:  [PaginationHeaderComponent],
   imports: [
     CommonModule,
     PaginationModule.forRoot()
   ],
   exports: [
-    PaginationComponent,
     PaginationModule
   ]
 })

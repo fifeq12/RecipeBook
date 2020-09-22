@@ -4,4 +4,5 @@ export class recipeParams {
     sort = '';
     pageNumber = 1;
     pageSize = 2;
+    search: string;
 }

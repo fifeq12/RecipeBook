@@ -1,7 +1,7 @@
 <div class="container">
   <div class="nav-bar">
     <div class="nav-bar-title">
-      <a href="#">
+      <a routerLink="/">
         <div class="nav-bar-title">
           <img
             src="assets/images/kissclipart-chef-hat-silhouette-clipart-chefs-uniform-clip-ar-79d232e8f0b4669a.png"
@@ -10,9 +10,11 @@
           <h1 class="title">Recipe Book</h1>
         </div>
       </a>
-      <a class="nav-link" href="#"><b>PRZEPISY</b></a>
-      <a class="nav-link" href="#"><b>INSPIRACJE</b></a>
-      <a class="nav-link" href="#"><b>SPOŁECZNOŚĆ</b></a>
+      <a class="nav-link" routerLink="/" routerLinkActive="active" 
+      [routerLinkActiveOptions]="{exact: true}">
+      <b>STRONA GŁÓWNA</b></a>
+      <a class="nav-link" routerLink="/recipes" routerLinkActive="active"><b>PRZEPISY</b></a>
+      <a class="nav-link" href="#" routerLinkActive="active"><b>SPOŁECZNOŚĆ</b></a>
     </div>
     <div class="nav-link-items"></div>
     <a href="#">

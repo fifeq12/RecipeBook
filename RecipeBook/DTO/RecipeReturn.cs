@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,5 +16,7 @@ namespace RecipeBook.DTO
         public string IngredientsType { get; set; }
         public string Difficulty { get; set; }
         public string RecipeType { get; set; }
+        public List<IngredientReturn> Ingredients { get; set; }
+        public List<PreparationStepReturn> PreparationSteps { get; set; }
     }
 }

@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200907120411_InitAddRecipeAddRecipeType.cs" />
     <Compile Remove="Migrations\20200907120411_InitAddRecipeAddRecipeType.Designer.cs" />
+    <Compile Remove="Migrations\20200922155317_AddIngredientsAndPreparationSteps.cs" />
+    <Compile Remove="Migrations\20200922155317_AddIngredientsAndPreparationSteps.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@ import { IPagination } from '../shared/models/pagination';
 import { IRecipeType } from '../shared/models/recipeTypes';
 import { map } from 'rxjs/operators';
 import { recipeParams } from '../shared/models/recipeParams';
+import { IRecipe } from '../shared/models/recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,7 @@ export class RecipebookService {
   // tslint:disable-next-line: typedef
   getRecipes(
     // tslint:disable-next-line: no-shadowed-variable
-    recipeParams: recipeParams,
-    search?: string,
+    recipeParams: recipeParams
     ) {
     let params = new HttpParams();
 
@@ -30,8 +30,8 @@ export class RecipebookService {
 
     params = params.append('orderBy', recipeParams.sort);
 
-    if (search) {
-      params = params.append('search', search);
+    if (recipeParams.search) {
+      params = params.append('search', recipeParams.search);
     }
 
     params = params.append('page', recipeParams.pageNumber.toString());
@@ -47,5 +47,9 @@ export class RecipebookService {
   // tslint:disable-next-line: typedef
   getRecipeTypes() {
     return this.http.get<IRecipeType[]>(this.baseUrl + 'recipes/types');
+  }
+
+  getRecipe(id: number) {
+    return this.http.get<IRecipe>(this.baseUrl + 'recipes/' + id);
   }
 }

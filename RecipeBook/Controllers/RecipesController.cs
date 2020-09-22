@@ -32,6 +32,9 @@ namespace RecipeBook.Controllers
         public async Task<ActionResult<Pagination<RecipeReturn>>> GetRecipes(string orderBy, string ingredientsType, string search, int? page, int? pageSize, int recipeTypeId)
         {
             var recipes = await _unitOfWork.Recipe.GetAll(includeProperties: "RecipeType");
+            var ingredients = await _unitOfWork.Ingredient.GetAll();
+            var prepartionSteps = await _unitOfWork.PreparationStep.GetAll();
+
             switch (orderBy)
             {
                 case "fast":
@@ -74,7 +77,17 @@ namespace RecipeBook.Controllers
                 ImageUrl = _config["ApiUrl"] + recipe.ImageUrl,
                 IngredientsType = Enum.GetName(typeof(IngredientsType), recipe.IngredientsType),
                 Difficulty = Enum.GetName(typeof(Difficulty), recipe.Difficulty),
-                RecipeType = recipe.RecipeType.Name
+                RecipeType = recipe.RecipeType.Name,
+                Ingredients = ingredients.Where(x => x.RecipeId == recipe.Id).Select(ingredient => new IngredientReturn
+                {
+                    Id = ingredient.Id,
+                    Name = ingredient.Name
+                }).ToList(),
+                PreparationSteps = prepartionSteps.Where(x => x.RecipeId == recipe.Id).Select(step => new PreparationStepReturn
+                {
+                    Id = step.Id,
+                    Name = step.Name
+                }).ToList()
             }).ToList();
 
             return Ok(Pagination<RecipeReturn>.Create(data, page ?? 1, pageSize ?? 10));
@@ -83,7 +96,10 @@ namespace RecipeBook.Controllers
         public async Task<ActionResult<RecipeReturn>> GetRecipe(int id)
         {
             var recipe = await _unitOfWork.Recipe.GetFirstOrDefault(x => x.Id == id, includeProperties: "RecipeType");
-            if(recipe == null)
+            var ingredients = await _unitOfWork.Ingredient.GetAll(filter: x => x.RecipeId == id);
+            var prepartionSteps = await _unitOfWork.PreparationStep.GetAll(filter: x => x.RecipeId == id);
+
+            if (recipe == null)
             {
                 return NotFound();
             }
@@ -96,7 +112,17 @@ namespace RecipeBook.Controllers
                 ImageUrl = _config["ApiUrl"] + recipe.ImageUrl,
                 IngredientsType = Enum.GetName(typeof(IngredientsType), recipe.IngredientsType),
                 Difficulty = Enum.GetName(typeof(Difficulty), recipe.Difficulty),
-                RecipeType = recipe.RecipeType.Name
+                RecipeType = recipe.RecipeType.Name,
+                Ingredients = ingredients.Select(ingredient => new IngredientReturn
+                {
+                    Id = ingredient.Id,
+                    Name = ingredient.Name
+                }).ToList(),
+                PreparationSteps = prepartionSteps.Select(step => new PreparationStepReturn
+                {
+                    Id = step.Id,
+                    Name = step.Name
+                }).ToList()
             };
         }
         [HttpGet("types")]

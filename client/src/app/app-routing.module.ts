@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { RecipeDetailsComponent } from './recipebook/recipe-details/recipe-details.component';
+import { RecipebookComponent } from './recipebook/recipebook.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {path: '', component: HomeComponent},
+  {path: 'recipes', loadChildren: () => import('./recipebook/recipebook.module').then(mod => mod.RecipebookModule)},
+  {path: '**', redirectTo: '', pathMatch: 'full'}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

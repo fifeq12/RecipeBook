@@ -8,5 +8,7 @@ namespace DataAccess.Repository.IRepository
     {
         IRecipeRepository Recipe { get; }
         IRecipeTypeRepository RecipeType { get; }
+        IIngredientRepository Ingredient { get; }
+        IPreparationStepRepository PreparationStep { get; }
     }
 }
