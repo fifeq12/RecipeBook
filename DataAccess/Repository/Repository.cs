@@ -19,6 +19,10 @@ namespace DataAccess.Repository
             _context = context;
             this.dbSet = _context.Set<T>();
         }
+        public async Task Add(T entity)
+        {
+            await dbSet.AddAsync(entity);
+        }
 
         public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter = null, string includeProperties = null)
         {

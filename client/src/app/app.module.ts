@@ -8,12 +8,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CoreModule } from './core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from './home/home.module';
+import { AddRecipeModule } from './add-recipe/add-recipe.module';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [ AppComponent ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,7 +20,8 @@ import { HomeModule } from './home/home.module';
     HttpClientModule,
     CoreModule,
     BrowserAnimationsModule,
-    HomeModule
+    HomeModule,
+    AddRecipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

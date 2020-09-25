@@ -3,6 +3,7 @@ using DataAccess.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess.Repository
 {
@@ -21,6 +22,11 @@ namespace DataAccess.Repository
         public IRecipeTypeRepository RecipeType { get; private set; }
         public IIngredientRepository Ingredient { get; private set; }
         public IPreparationStepRepository PreparationStep { get; private set; }
+
+        public async Task Save()
+        {
+            await _db.SaveChangesAsync();
+        }
 
     }
 }

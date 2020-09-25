@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PaginationHeaderComponent } from './components/pagination-header/pagination-header.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -10,10 +11,12 @@ import { PaginationHeaderComponent } from './components/pagination-header/pagina
   declarations:  [PaginationHeaderComponent],
   imports: [
     CommonModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ReactiveFormsModule
   ],
   exports: [
-    PaginationModule
+    PaginationModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

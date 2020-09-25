@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess.Repository.IRepository
 {
@@ -10,5 +11,7 @@ namespace DataAccess.Repository.IRepository
         IRecipeTypeRepository RecipeType { get; }
         IIngredientRepository Ingredient { get; }
         IPreparationStepRepository PreparationStep { get; }
+
+        Task Save();
     }
 }

@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace DataAccess.Repository
 {
     public interface IRecipeRepository : IRepository<Recipe>
-    {    
+    { 
     }
 }

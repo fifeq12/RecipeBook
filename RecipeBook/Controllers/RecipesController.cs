@@ -131,5 +131,13 @@ namespace RecipeBook.Controllers
             var types = await _unitOfWork.RecipeType.GetAll();
             return Ok(types);
         }
+
+        [HttpPost("add")]
+        public async Task<ActionResult<Recipe>> AddRecipe(Recipe recipe)
+        {
+            await _unitOfWork.Recipe.Add(recipe);
+            await _unitOfWork.Save();
+            return Ok(recipe);
+        }
     }
 }
