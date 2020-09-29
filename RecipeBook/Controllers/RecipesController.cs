@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess.Data;
 using DataAccess.Repository;
 using DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +23,13 @@ namespace RecipeBook.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _environment;
 
-        public RecipesController(ApplicationDbContext context, IConfiguration config, IUnitOfWork unitOfWork)
+        public RecipesController(ApplicationDbContext context, IConfiguration config, IUnitOfWork unitOfWork, IWebHostEnvironment environment)
         {
             _config = config;
             _unitOfWork = unitOfWork;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -133,11 +137,29 @@ namespace RecipeBook.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<ActionResult<Recipe>> AddRecipe(Recipe recipe)
+        public async Task<ActionResult> AddRecipe([FromForm]PostRecipeModel recipeModel)
         {
-            await _unitOfWork.Recipe.Add(recipe);
-            await _unitOfWork.Save();
-            return Ok(recipe);
+            if (recipeModel.file.Length > 0)
+            {
+                using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + @"\images\recipes\" + recipeModel.file.FileName))
+                {
+                    await recipeModel.file.CopyToAsync(fileStream);
+                    fileStream.Flush();
+/*                    await _unitOfWork.Recipe.Add(recipeModel.recipe);
+                    await _unitOfWork.Save();*/
+                    return Ok(recipeModel.recipe);
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+
         }
+/*        [HttpPost("upload")]
+        public async Task<ActionResult> UploadImage(IFormFile file)
+        {
+
+        }*/
     }
 }

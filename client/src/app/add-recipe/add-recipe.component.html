@@ -1,12 +1,12 @@
 <div class="container">
     <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
         <input formControlName="name" placeholder="name">
-        <input formControlName="prepTime" type="number" placeholder="preparationTime">
-        <input formControlName="desc" type="text" placeholder="desc">
-        <input formControlName="imgUrl" type="file" >
-        <input formControlName="ingredTypes" type="number" placeholder="ingtype">
-        <input formControlName="diff" type="number" placeholder="diff">
-        <input formControlName="recipeType" type="number" placeholder="recipeType">
+        <input formControlName="preparationTime" type="number" placeholder="preparationTime">
+        <input formControlName="description" type="text" placeholder="desc">
+        <input formControlName="imageUrl" type="file" (change)="onSelectedFile($event)">
+        <input formControlName="ingredientsType" type="number" placeholder="ingtype">
+        <input formControlName="difficulty" type="number" placeholder="diff">
+        <input formControlName="recipeTypeId" type="number" placeholder="recipeType">
         <button type="submit">test</button>
     </form>
 </div>

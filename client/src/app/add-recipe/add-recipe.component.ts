@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddRecipe } from '../shared/models/addRecipe';
+import { AddRecipeService } from './add-recipe.service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -9,8 +10,9 @@ import { AddRecipe } from '../shared/models/addRecipe';
 })
 export class AddRecipeComponent implements OnInit {
   addForm: FormGroup;
+  file: File;
 
-  constructor() { }
+  constructor(private addRecipeService: AddRecipeService) { }
 
   ngOnInit(): void {
     this.createAddForm();
@@ -19,16 +21,30 @@ export class AddRecipeComponent implements OnInit {
   createAddForm() {
     this.addForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      prepTime: new FormControl('', Validators.required),
-      desc: new FormControl('', Validators.required),
-      imgUrl: new FormControl('', Validators.required),
-      ingredTypes: new FormControl('', Validators.required),
-      diff: new FormControl('', Validators.required),
-      recipeType: new FormControl('', Validators.required)
+      preparationTime: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      imageUrl: new FormControl('', Validators.required),
+      ingredientsType: new FormControl('', Validators.required),
+      difficulty: new FormControl('', Validators.required),
+      recipeTypeId: new FormControl('', Validators.required)
     });
   }
   
+  onSelectedFile(event) {
+    if (event.target.files.length > 0) {
+      this.file = event.target.files[0];
+    }
+  }
+
   onSubmit() {
-      console.log(this.addForm.value);
+      this.addForm.value.imageUrl = 'images/recipes/' + this.file.name;
+      const formData = new FormData();
+      formData.append('file', this.file, this.file.name);
+      formData.append('recipe', JSON.stringify(this.addForm.value));
+      this.addRecipeService.addRecipe(formData).subscribe(response => {
+         console.log(response);
+      }, error => {
+         console.log(error);
+      });
   }
  }
