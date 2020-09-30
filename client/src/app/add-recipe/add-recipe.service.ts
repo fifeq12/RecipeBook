@@ -15,6 +15,6 @@ export class AddRecipeService {
       responseType: 'text'
     };
     console.log(data);
-    return this.http.post<any>(this.baseUrl + 'recipes/add', data );
+    return this.http.post<any>(this.baseUrl + 'recipes/add', data);
   }
 }

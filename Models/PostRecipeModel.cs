@@ -7,7 +7,7 @@ namespace Models
 {
     public class PostRecipeModel
     {
-        public Recipe recipe { get; set; }
+        public Array recipe { get; set; }
         public IFormFile file { get; set; }
     }
 }
