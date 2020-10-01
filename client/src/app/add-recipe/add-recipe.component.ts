@@ -37,10 +37,9 @@ export class AddRecipeComponent implements OnInit {
   }
 
   onSubmit() {
-      this.addForm.value.imageUrl = 'images/recipes/' + this.file.name;
       const formData = new FormData();
       formData.append('file', this.file, this.file.name);
-      formData.append('recipe', new Blob([JSON.stringify(this.addForm.value)]));
+      formData.set('recipeJson', JSON.stringify(this.addForm.value));
       this.addRecipeService.addRecipe(formData).subscribe(response => {
          console.log(response);
       }, error => {

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Models;
+using Newtonsoft.Json;
 using RecipeBook.DTO;
 using RecipeBook.Helpers;
 
@@ -137,29 +138,27 @@ namespace RecipeBook.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<ActionResult> AddRecipe([FromForm]PostRecipeModel recipeModel)
+        public async Task<ActionResult> AddRecipe([FromForm] string recipeJson, [FromForm] IFormFile file)
         {
-            if (recipeModel.file.Length > 0)
+            Recipe recipe = JsonConvert.DeserializeObject<Recipe>(recipeJson);
+            if (file.Length > 0)
             {
-                using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + @"\images\recipes\" + recipeModel.file.FileName))
+                var extension = Path.GetExtension(file.FileName);
+                var newFileName = GenerateFileName.Generate(file.FileName) + extension;
+                using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + @"\images\recipes\" + newFileName))
                 {
-                    await recipeModel.file.CopyToAsync(fileStream);
+                    await file.CopyToAsync(fileStream);
                     fileStream.Flush();
-/*                    await _unitOfWork.Recipe.Add(recipeModel.recipe);
-                    await _unitOfWork.Save();*/
-                    return Ok(recipeModel.recipe);
                 }
+                recipe.ImageUrl = newFileName;
+                await _unitOfWork.Recipe.Add(recipe);
+                await _unitOfWork.Save();
+                return Ok();
             }
             else
             {
                 return BadRequest();
             }
-
         }
-/*        [HttpPost("upload")]
-        public async Task<ActionResult> UploadImage(IFormFile file)
-        {
-
-        }*/
     }
 }

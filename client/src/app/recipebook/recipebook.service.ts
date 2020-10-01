@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { IPagination } from '../shared/models/pagination';
 import { IRecipeType } from '../shared/models/recipeTypes';
 import { map } from 'rxjs/operators';
 import { recipeParams } from '../shared/models/recipeParams';
 import { IRecipe } from '../shared/models/recipe';
+import { IPagination } from '../shared/models/pagination';
 
 @Injectable({
   providedIn: 'root'
